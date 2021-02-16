@@ -3,6 +3,7 @@ import { useEffect, useState } from 'react';
 import fetch from 'isomorphic-unfetch';
 import { Button, Card, Form, Divider, Container, Dimmer, Loader, Image, Segment } from 'semantic-ui-react';
 import Chart from '../components/Chart';
+import { server } from '../config';
 const Index = ({ initialData }) => {
 	const [ names, setNames ] = useState(initialData);
 	const [ searchTerm, setSearchTerm ] = useState('Default');
@@ -11,7 +12,7 @@ const Index = ({ initialData }) => {
 	const fetchData = async () => {
 		// alert(searchTerm);
 		setLoading(true);
-		const req = await fetch(`http://localhost:3000/api/names?name=${searchTerm}`);
+		const req = await fetch(`${server}/api/names?name=${searchTerm}`);
 		const newName = await req.json();
 		setNames(newName);
 		setLoading(false);
@@ -116,7 +117,7 @@ const Index = ({ initialData }) => {
 };
 
 Index.getInitialProps = async () => {
-	const req = await fetch(`http://localhost:3000/api/names?name=Default`);
+	const req = await fetch(`${server}/api/names?name=Default`);
 	const data = await req.json();
 
 	return { initialData: data };
