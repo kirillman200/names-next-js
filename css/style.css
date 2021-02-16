@@ -2,12 +2,6 @@ h1 {
 	text-align: center;
 }
 
-.wrapper {
-	max-width: 1200px;
-	padding: 0 16px;
-	margin: auto;
-}
-
 .navbar {
 	padding: 20px;
 	margin-bottom: 20px;
@@ -15,11 +9,6 @@ h1 {
 	color: #fff;
 	display: flex;
 	justify-content: space-between;
-}
-
-.navbar .create {
-	color: #fff;
-	font-size: 1.5rem;
 }
 
 .navbar .navbar-brand {
@@ -37,6 +26,19 @@ h1 {
 	grid-template-columns: auto auto auto;
 	padding: 10px;
 }
+@media only screen and (max-width: 950px) {
+	.all-names {
+		display: grid;
+		grid-template-columns: auto auto;
+	}
+}
+@media only screen and (max-width: 620px) {
+	.all-names {
+		display: grid;
+		grid-template-columns: auto;
+	}
+}
+
 /* .field {
 	width: 50% !important;
 } */

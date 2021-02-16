@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Line, Bar } from 'react-chartjs-2';
 
 const Chart = ({ searchTerm, numberOfOccurences, yearOf }) => {
@@ -18,6 +18,8 @@ const Chart = ({ searchTerm, numberOfOccurences, yearOf }) => {
 		return pool;
 	}
 
+	const [ color, setColor ] = useState([]);
+
 	return (
 		<div>
 			<Bar
@@ -33,8 +35,8 @@ const Chart = ({ searchTerm, numberOfOccurences, yearOf }) => {
 						}
 					]
 				}}
-				height={600}
-				width={600}
+				height={30}
+				width={100}
 				options={{
 					scales: {
 						yAxes: [

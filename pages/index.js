@@ -95,15 +95,16 @@ const Index = ({ initialData }) => {
 									<Card>
 										<Card.Content>
 											<Card.Header>Name: {name.name}</Card.Header>
+											<Card.Meta>
+												<span className='date'>Gender: {name.gender}</span>
+											</Card.Meta>
+											<Card.Description>
+												<p> State: {name.state}</p>
+												<p>Year: {name.year}</p>
+											</Card.Description>
 										</Card.Content>
-										<Card.Content extra>
-											Gender: {name.gender}
-											State: {name.state}
-											<br />
-											Year: {name.year}
-											<br />
-											&#8470; Of Occurrences: {name.number}
-										</Card.Content>
+
+										<Card.Content extra>&#8470; Of Occurrences: {name.number}</Card.Content>
 									</Card>
 								</div>
 							);
