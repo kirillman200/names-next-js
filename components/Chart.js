@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import { Line, Bar } from 'react-chartjs-2';
+import React from 'react';
+import { Bar } from 'react-chartjs-2';
 
 const Chart = ({ searchTerm, numberOfOccurences, yearOf }) => {
 	function dynamicColors() {
@@ -17,8 +17,6 @@ const Chart = ({ searchTerm, numberOfOccurences, yearOf }) => {
 		}
 		return pool;
 	}
-
-	const [ color, setColor ] = useState([]);
 
 	return (
 		<div>

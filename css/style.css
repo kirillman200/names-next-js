@@ -32,6 +32,12 @@ h1 {
 		grid-template-columns: auto auto;
 	}
 }
+@media only screen and (min-width: 1440px) {
+	.all-names {
+		display: grid;
+		grid-template-columns: auto auto auto auto;
+	}
+}
 @media only screen and (max-width: 620px) {
 	.all-names {
 		display: grid;

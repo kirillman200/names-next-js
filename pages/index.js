@@ -1,7 +1,7 @@
 import Link from 'next/link';
 import { useEffect, useState } from 'react';
 import fetch from 'isomorphic-unfetch';
-import { Button, Card, Form, Divider, Container, Dimmer, Loader, Image, Segment } from 'semantic-ui-react';
+import { Button, Card, Form, Divider, Container, Dimmer, Loader, Segment } from 'semantic-ui-react';
 import Chart from '../components/Chart';
 import { server } from '../config';
 const Index = ({ initialData }) => {
@@ -10,41 +10,33 @@ const Index = ({ initialData }) => {
 	const [ loading, setLoading ] = useState(false);
 
 	const fetchData = async () => {
-		// alert(searchTerm);
 		setLoading(true);
 		const req = await fetch(`${server}/api/names?name=${searchTerm}`);
 		const newName = await req.json();
 		setNames(newName);
 		setLoading(false);
-		// event.preventDefault();
 	};
 	const handleSubmit = () => {
-		// event.preventDefault();
 		fetchData();
 	};
 
-	// useEffect(() => {
-	// 	(async () => {
-
-	// 		await handleSubmit();
-	// 	})();
-	// }, []);
 	const handleChange = (e) => {
 		setSearchTerm(e.target.value);
 	};
 
-	const numberOfOccurences = names.map((opt) => opt.number);
-	const yearOf = names.map((opt) => opt.year);
-	// if (loading) {
-	// 	return (
-	// 		<div>
-	// 			<h2> Loading...</h2>
-	// 			<div className='loader'>
-	// 				{/* <img src='../../../public/tail-spin.svg' class='img-fluid' alt='Responsive image' /> */}
-	// 			</div>
-	// 		</div>
-	// 	);
-	// } else {
+	const chartData = {};
+
+	for (const name of names) {
+		if (chartData[name.year]) {
+			chartData[name.year] += name.number;
+		} else {
+			chartData[name.year] = name.number;
+		}
+	}
+
+	const numberOfOccurences = Object.values(chartData);
+	const yearOf = Object.keys(chartData);
+
 	return (
 		<div className='names-container'>
 			<h1>Check A History of Your Name</h1>
@@ -58,18 +50,6 @@ const Index = ({ initialData }) => {
 					<Button type='submit'>Submit</Button>
 				</Form>
 			</Container>
-			{/* <form className='search-bar' onSubmit={handleSubmit}>
-							<input
-								type='text'
-								name='name'
-								placeholder='Search Name'
-								className='search-input'
-								onChange={handleChange}
-								required
-							/>
-
-							<button type='submit'>Send</button>
-						</form> */}
 
 			{loading ? (
 				<Segment>
@@ -114,7 +94,6 @@ const Index = ({ initialData }) => {
 			)}
 		</div>
 	);
-	// }
 };
 
 Index.getInitialProps = async () => {
