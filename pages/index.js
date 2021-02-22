@@ -1,7 +1,7 @@
 import Link from 'next/link';
 import { useEffect, useState } from 'react';
 import fetch from 'isomorphic-unfetch';
-import { Button, Card, Form, Divider, Container, Dimmer, Loader, Segment } from 'semantic-ui-react';
+import { Button, Card, Form, Divider, Container, Dimmer, Loader, Segment, Pagination } from 'semantic-ui-react';
 import Chart from '../components/Chart';
 import { server } from '../config';
 const Index = ({ initialData }) => {
@@ -16,7 +16,8 @@ const Index = ({ initialData }) => {
 		setNames(newName);
 		setLoading(false);
 	};
-	const handleSubmit = () => {
+	const handleSubmit = (event) => {
+		event.preventDefault();
 		fetchData();
 	};
 
@@ -37,6 +38,17 @@ const Index = ({ initialData }) => {
 	const numberOfOccurences = Object.values(chartData);
 	const yearOf = Object.keys(chartData);
 
+	const [ pageNumber, setPageNumber ] = useState(0);
+	const namesPerPage = 6;
+	const pagesVisited = pageNumber * namesPerPage;
+
+	const namesLength = Object.values(names).length;
+	const currentNames = names.slice(pagesVisited, pagesVisited + namesPerPage);
+	const pageCount = Math.ceil(namesLength / namesPerPage);
+
+	const pageChange = (event, data) => {
+		setPageNumber(data.activePage - 1);
+	};
 	return (
 		<div className='names-container'>
 			<h1>Check A History of Your Name</h1>
@@ -61,34 +73,45 @@ const Index = ({ initialData }) => {
 				</Segment>
 			) : (
 				<div>
-					<Divider horizontal inverted>
-						Chart
-					</Divider>
-					<Chart searchTerm={searchTerm} numberOfOccurences={numberOfOccurences} yearOf={yearOf} />
-					<Divider horizontal inverted>
-						All Names
-					</Divider>
-					<div className='all-names'>
-						{names.map((name) => {
-							return (
-								<div className='cards' key={name._id}>
-									<Card>
-										<Card.Content>
-											<Card.Header>Name: {name.name}</Card.Header>
-											<Card.Meta>
-												<span className='date'>Gender: {name.gender}</span>
-											</Card.Meta>
-											<Card.Description>
-												<p> State: {name.state}</p>
-												<p>Year: {name.year}</p>
-											</Card.Description>
-										</Card.Content>
+					<div>
+						<Divider horizontal inverted>
+							Chart
+						</Divider>
 
-										<Card.Content extra>&#8470; Of Occurrences: {name.number}</Card.Content>
-									</Card>
-								</div>
-							);
-						})}
+						<Chart searchTerm={searchTerm} numberOfOccurences={numberOfOccurences} yearOf={yearOf} />
+
+						<Divider horizontal inverted>
+							All Names
+						</Divider>
+						<div className='all-names'>
+							{currentNames.map((name) => {
+								return (
+									<div className='cards' key={name._id}>
+										<Card>
+											<Card.Content>
+												<Card.Header>Name: {name.name}</Card.Header>
+												<Card.Meta>
+													<span className='date'>Gender: {name.gender}</span>
+												</Card.Meta>
+												<Card.Description>
+													<p> State: {name.state}</p>
+													<p>Year: {name.year}</p>
+												</Card.Description>
+											</Card.Content>
+
+											<Card.Content extra>&#8470; Of Occurrences: {name.number}</Card.Content>
+										</Card>
+									</div>
+								);
+							})}
+						</div>
+						{pageCount > 1 ? (
+							<div className='pagination'>
+								<Pagination defaultActivePage={0} onPageChange={pageChange} totalPages={pageCount} />
+							</div>
+						) : (
+							<div> </div>
+						)}
 					</div>
 				</div>
 			)}
