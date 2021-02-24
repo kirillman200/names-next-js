@@ -94,7 +94,7 @@ const Index = ({ initialData }) => {
 													<span className='date'>Gender: {name.gender}</span>
 												</Card.Meta>
 												<Card.Description>
-													<p> State: {name.state}</p>
+													<p>State: {name.state}</p>
 													<p>Year: {name.year}</p>
 												</Card.Description>
 											</Card.Content>
